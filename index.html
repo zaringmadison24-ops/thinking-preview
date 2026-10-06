@@ -1,0 +1,2001 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>思维集合 · 思维模型原料资料库</title>
+<meta name="description" content="收录世界上已存在、有名字的思维模型：考据提出者与原始出处，整理概述与应用，止于原料。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;900&family=Spectral:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:   #F2ECDD;
+    --card:    #FDFBF3;
+    --ink:     #211D16;
+    --ink-2:   #5B5346;
+    --ink-3:   #8C8371;
+    --cinnabar:#A83A2A;   /* 朱砂：确证印记、卷首印章 */
+    --dai:     #2C4A8F;   /* 靛蓝：全部/导航默认色 */
+    --dai-deep:#25335A;   /* 卷首深蓝底 */
+    --gold:    #C9A05A;   /* 卷首点缀金 */
+    --ink-deep:#241F17;   /* 卷尾深墨底 */
+    --line:    #E3DCC8;
+    --line-2:  #CCC4AC;
+    /* 五类东方色：卡片晕染与类别标识 */
+    --c1:#3E5C9B;  /* 通用 · 靛蓝 */
+    --c2:#A8452F;  /* 博弈 · 朱砂 */
+    --c3:#A87B22;  /* 决策 · 赭石 */
+    --c4:#3F7362;  /* 系统 · 松绿 */
+    --c5:#71507A;  /* 哲学 · 紫檀 */
+  }
+  *{ margin:0; padding:0; box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  body{
+    background:linear-gradient(180deg, var(--paper) 0%, #EDE5D2 100%);
+    background-attachment:fixed;
+    color:var(--ink);
+  }
+  /* 底层五色光晕：毛玻璃卡片滑过时透出颜色 */
+  body::before{
+    content:"";
+    position:fixed; inset:0; z-index:-1;
+    pointer-events:none;
+    background:
+      radial-gradient(560px 460px at 8% 14%, color-mix(in srgb, var(--c1) 38%, transparent), transparent 70%),
+      radial-gradient(640px 520px at 92% 28%, color-mix(in srgb, var(--c2) 32%, transparent), transparent 70%),
+      radial-gradient(600px 500px at 12% 72%, color-mix(in srgb, var(--c3) 34%, transparent), transparent 70%),
+      radial-gradient(640px 520px at 90% 84%, color-mix(in srgb, var(--c4) 30%, transparent), transparent 70%),
+      radial-gradient(520px 440px at 50% 50%, color-mix(in srgb, var(--c5) 24%, transparent), transparent 70%);
+  }
+    font-family:"Noto Serif SC","Songti SC","STSong","SimSun",serif;
+    font-size:16px;
+    line-height:1.75;
+    -webkit-font-smoothing:antialiased;
+  }
+  ::selection{ background:var(--cinnabar); color:var(--card); }
+  a{ color:inherit; text-decoration:none; }
+  .latin{ font-family:"Spectral","Noto Serif SC",serif; }
+
+  /* ── 卷首 · 深蓝一整面 ──────────────── */
+  .hero{ background:var(--dai-deep); color:var(--paper); }
+  .hero-inner{
+    max-width:1240px; margin:0 auto;
+    padding:88px 40px;
+    display:flex; gap:72px; align-items:center;
+  }
+  .hero-title{
+    writing-mode:vertical-rl;
+    font-size:clamp(56px,7vw,84px);
+    font-weight:900;
+    letter-spacing:.18em;
+    line-height:1;
+    flex:none;
+    color:var(--paper);
+    border-right:3px solid var(--cinnabar);
+    padding-right:20px;
+  }
+  .seal{
+    writing-mode:horizontal-tb;
+    display:inline-flex; align-items:center; justify-content:center;
+    width:.92em; height:.92em;
+    background:var(--cinnabar); color:var(--card);
+    font-size:.34em; font-weight:600; letter-spacing:0;
+    border-radius:3px;
+    margin-top:.35em;
+    user-select:none;
+  }
+  .hero-body{ flex:1; min-width:0; }
+  .hero-main{ max-width:640px; min-width:0; }
+  .hero-kicker{
+    font-size:13px; color:var(--gold); letter-spacing:.35em;
+    margin-bottom:22px;
+  }
+  .hero-lede{
+    font-size:17.5px; line-height:2.1;
+    color:color-mix(in srgb, var(--paper) 80%, transparent);
+    text-align:justify;
+  }
+  .hero-lede strong{ color:var(--paper); font-weight:600; }
+  .hero-stats{
+    margin-top:40px; padding-top:26px;
+    border-top:1px solid color-mix(in srgb, var(--paper) 22%, transparent);
+    display:flex; gap:64px; flex-wrap:wrap;
+  }
+  .stat b{
+    font-family:"Spectral",serif; font-weight:300;
+    font-size:32px; color:var(--paper); display:block; line-height:1.2;
+    font-variant-numeric:tabular-nums;
+  }
+  .stat span{
+    font-size:12.5px; letter-spacing:.2em;
+    color:color-mix(in srgb, var(--paper) 55%, transparent);
+  }
+
+  /* ── 检索栏 ─────────────────────────── */
+  .toolbar{
+    position:sticky; top:0; z-index:20;
+    background:color-mix(in srgb, var(--paper) 92%, transparent);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line-2);
+  }
+  .toolbar-inner{
+    max-width:1760px; margin:0 auto; padding:0 32px;
+    display:flex; align-items:center; gap:28px; flex-wrap:wrap;
+    min-height:64px;
+  }
+  .search{ flex:1 1 220px; display:flex; align-items:center; gap:10px; }
+  .search svg{ flex:none; stroke:var(--dai); }
+  .search input{
+    width:100%; border:none; background:transparent; outline:none;
+    font-family:inherit; font-size:15px; color:var(--ink);
+    padding:8px 0;
+  }
+  .search input::placeholder{ color:var(--ink-3); }
+  .cats{ display:flex; gap:4px; flex-wrap:wrap; }
+  .cat-btn{
+    border:1px solid transparent; background:transparent; cursor:pointer;
+    font-family:inherit; font-size:13.5px; color:var(--ink-2);
+    padding:5px 12px; border-radius:2px; letter-spacing:.05em;
+    transition:color .15s,border-color .15s;
+  }
+  .cat-btn:hover{ color:var(--ink); }
+  .cat-btn:focus-visible, .search input:focus-visible{
+    outline:2px solid var(--dai); outline-offset:2px;
+  }
+
+  /* ── 名册 · 五类五色 ────────────────── */
+  .roster{ max-width:1760px; margin:0 auto; padding:8px 32px 40px; }
+  section[data-num="一"]{ --cat:var(--c1); }
+  section[data-num="二"]{ --cat:var(--c2); }
+  section[data-num="三"]{ --cat:var(--c3); }
+  section[data-num="四"]{ --cat:var(--c4); }
+  section[data-num="五"]{ --cat:var(--c5); }
+
+  .roster section{
+    margin-top:72px;
+    scroll-margin-top:84px;
+  }
+  .cat-head{
+    position:relative;
+    display:flex; align-items:center; gap:16px;
+    margin:0 0 8px; padding-bottom:16px;
+    border-bottom:1px solid color-mix(in srgb, var(--cat) 32%, var(--line-2));
+  }
+  .cat-head > *{ position:relative; z-index:1; }
+  .cat-num{
+    flex:none;
+    width:42px; height:42px;
+    display:inline-flex; align-items:center; justify-content:center;
+    background:var(--cat); color:var(--card);
+    font-size:20px; font-weight:600; border-radius:3px;
+    user-select:none;
+  }
+  .cat-name{ font-size:25px; font-weight:900; letter-spacing:.06em; }
+  .cat-count{
+    font-family:"Spectral",serif; font-weight:300;
+    font-size:14px; color:var(--ink-3); font-variant-numeric:tabular-nums;
+    align-self:flex-end; padding-bottom:4px;
+  }
+  .cat-ghost{
+    position:absolute; right:-4px; bottom:-10px; z-index:0;
+    font-size:120px; font-weight:900; line-height:1;
+    color:color-mix(in srgb, var(--cat) 12%, transparent);
+    pointer-events:none; user-select:none;
+  }
+  .sub-head{
+    margin:32px 0 0; font-size:14px; font-weight:600;
+    color:var(--ink-3); letter-spacing:.25em;
+  }
+  .sub-head::before{ content:"—— "; color:var(--cat); }
+
+  /* ── 索引卡 · 带本色晕染 ────────────── */
+  .grid{
+    position:relative; z-index:1;
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(240px,1fr));
+    gap:24px;
+    margin-top:20px;
+  }
+  .card{
+    background:color-mix(in srgb, var(--card) 40%, transparent);
+    -webkit-backdrop-filter:blur(18px) saturate(1.6);
+    backdrop-filter:blur(18px) saturate(1.6);
+    border:1px solid color-mix(in srgb, #FFFFFF 65%, transparent);
+    border-radius:18px;
+    padding:22px 22px 16px;
+    min-height:300px;
+    display:flex; flex-direction:column;
+    min-width:0;
+    box-shadow:
+      inset 0 1px 0 color-mix(in srgb, #FFFFFF 60%, transparent),
+      0 4px 24px color-mix(in srgb, var(--cat) 10%, transparent);
+    transition:border-color .15s, box-shadow .15s, transform .15s;
+  }
+  .card:hover{
+    border-color:color-mix(in srgb, var(--cat) 45%, #FFFFFF);
+    box-shadow:0 14px 36px color-mix(in srgb, var(--cat) 20%, transparent);
+    transform:translateY(-4px);
+  }
+  .card-name{
+    font-size:17.5px; font-weight:600; letter-spacing:.02em;
+    overflow-wrap:break-word;
+  }
+  .card-foreign{
+    font-family:"Spectral",serif; font-style:italic; font-weight:300;
+    font-size:12.5px; color:var(--ink-3); display:block; margin-top:4px;
+    overflow-wrap:break-word;
+  }
+  .card-tagline{
+    font-size:13.5px; color:var(--ink-2); line-height:1.8;
+    margin-top:12px; flex:1;
+  }
+  .card-foot{
+    margin-top:14px; padding-top:11px;
+    border-top:1px solid color-mix(in srgb, var(--cat) 18%, var(--line));
+    display:flex; align-items:center; justify-content:space-between; gap:8px;
+  }
+  .card-proposer{
+    font-size:12.5px; color:var(--ink-3);
+    overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+  }
+  .tier{
+    flex:none;
+    font-size:11px; letter-spacing:.1em; white-space:nowrap;
+    padding:2px 8px; border:1px solid var(--line-2); border-radius:2px;
+    color:var(--ink-2); background:var(--card);
+  }
+  .tier.t-确证, .tier.t-确证·主流{ color:var(--cinnabar); border-color:var(--cinnabar); }
+  .tier.t-集体沉淀{ color:var(--ink-3); border-style:dashed; }
+
+  .empty{
+    display:none; padding:80px 0; text-align:center; color:var(--ink-3);
+    font-size:15px;
+  }
+  .empty.show{ display:block; }
+
+  /* ── 卷尾 · 深墨压底 ────────────────── */
+  footer{ background:var(--ink-deep); margin-top:96px; }
+  .footer-inner{
+    max-width:1760px; margin:0 auto; padding:52px 32px 68px;
+    display:flex; gap:48px; flex-wrap:wrap;
+    font-size:13px; line-height:2;
+    color:color-mix(in srgb, var(--paper) 62%, transparent);
+  }
+  .footer-inner section{ max-width:420px; }
+  .footer-inner h2{
+    font-size:13px; letter-spacing:.3em;
+    margin-bottom:12px; font-weight:600;
+    color:color-mix(in srgb, var(--paper) 88%, transparent);
+  }
+  .footer-inner strong{
+    color:color-mix(in srgb, var(--paper) 88%, transparent);
+    font-weight:600;
+  }
+
+  /* ── 入场 ───────────────────────────── */
+  @keyframes rise{ from{ opacity:0; transform:translateY(14px);} to{ opacity:1; transform:none;} }
+  .hero-inner > *{ animation:rise .9s cubic-bezier(.2,.6,.2,1) both; }
+  .hero-body{ animation-delay:.12s; }
+  @media (prefers-reduced-motion:reduce){
+    *{ animation:none !important; transition:none !important; }
+    html{ scroll-behavior:auto; }
+  }
+
+  /* ── 窄屏 ───────────────────────────── */
+  @media (max-width:760px){
+    .hero-inner{ flex-direction:column; gap:40px; padding:56px 22px 52px; }
+    .hero-title{
+      writing-mode:horizontal-tb; letter-spacing:.1em;
+      border-right:none; border-bottom:3px solid var(--cinnabar);
+      padding:0 0 12px;
+    }
+    .seal{ margin-top:0; margin-left:.3em; vertical-align:.5em; }
+    .hero-stats{ gap:36px; }
+    .toolbar-inner{ padding:10px 22px; gap:14px; }
+    .roster{ padding:8px 22px 32px; }
+    .roster section{ margin-top:52px; }
+    .grid{ grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:14px; }
+    .card{ min-height:230px; padding:16px 16px 12px; }
+    .cat-num{ width:36px; height:36px; font-size:17px; }
+    .cat-name{ font-size:21px; }
+    .cat-ghost{ font-size:88px; right:0; }
+    .footer-inner{ padding:44px 22px 60px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-inner">
+    <h1 class="hero-title">思维集合<span class="seal">集</span></h1>
+    <div class="hero-body">
+      <div class="hero-main">
+        <p class="hero-kicker">思维模型原料资料库</p>
+        <p class="hero-lede">
+          收录世界上已存在、有名字的<strong>思考方法与框架</strong>——第一性原理、逆向思维、博弈论、六顶思考帽、辩证法……
+          每一条都考据<strong>提出者</strong>与<strong>原始出处</strong>，整理概述与应用。
+          止于原料，不做蒸馏；提出者查无确证的，一律不收。
+        </p>
+      </div>
+      <div class="hero-stats">
+        <div class="stat"><b id="statTotal">—</b><span>已入库思维</span></div>
+        <div class="stat"><b>5</b><span>所属类别</span></div>
+        <div class="stat"><b id="statProven">—</b><span>提出者已确证</span></div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<nav class="toolbar">
+  <div class="toolbar-inner">
+    <label class="search">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input id="q" type="search" placeholder="检索思维、提出者或出处…" aria-label="检索名册">
+    </label>
+    <div class="cats" id="cats" role="tablist" aria-label="按类别筛选"></div>
+  </div>
+</nav>
+
+<main class="roster" id="roster"></main>
+<p class="empty" id="empty">名册中没有相符的条目。换个关键词，或回到「全部」。</p>
+
+<footer>
+  <div class="footer-inner">
+    <section>
+      <h2>收录标准</h2>
+      只收<strong>有名字的、可主动拿来分析／推理／决策／解决问题的思考方法或框架</strong>。
+      不收学科概念与定理、逻辑推理方法与剃刀原则、描述性定律与效应、认知偏差、纯科学事实、业务流程方法论。
+    </section>
+    <section>
+      <h2>置信度口径</h2>
+      <strong>确证</strong>：提出者与出处有据可查；<strong>主流认定</strong>：学界或业界通行归因；
+      <strong>集体沉淀</strong>：机构或长期形成，无单一提出者，不冒充个人。
+    </section>
+    <section>
+      <h2>关于本库</h2>
+      库内思维均已正式入库，<strong>一个思维一个文件</strong>。内容止于原料整理，不做蒸馏；商业内容无授权只留正版入口。
+    </section>
+  </div>
+</footer>
+
+<script>
+/* 数据由 Ⅶ、toolkit（工具模板）/同步清单.py 从 Ⅲ、models（已整思维）/ 自动写入，勿手改。
+   内嵌而非外链：这样 index.html 单独打开（双击、或应用里的文件预览）也能正常显示。 */
+/* DATA:BEGIN */
+const ROSTER = {
+ "total": 165,
+ "categories": [
+  {
+   "num": "一",
+   "name": "通用思维模型",
+   "subs": [
+    {
+     "name": "",
+     "items": [
+      {
+       "name": "APC 替代与可能",
+       "foreign": "APC (Alternatives, Possibilities, Choices)",
+       "proposer": "爱德华·德博诺",
+       "source": "CoRT 思维课程",
+       "tagline": "逼自己多想几个方案和可能，而不是抓住第一个就做。",
+       "confidence": "确证",
+       "tier": "确证"
+      },
+      {
+       "name": "CAF 考虑所有因素",
+       "foreign": "CAF (Consider All Factors)",
+       "proposer": "爱德华·德博诺",
+       "source": "CoRT 思维课程",
+       "tagline": "做判断前，先把需要考虑的因素尽量列全，再逐项权衡。",
+       "confidence": "确证",
+       "tier": "确证"
+      },
+      {
+       "name": "OPV 考虑他人观点",
+       "foreign": "OPV (Other People's Views)",
+       "proposer": "爱德华·德博诺",
+       "source": "CoRT 思维课程",
+       "tagline": "有意识地站到相关各方的立场上，看他们会怎么想。",
+       "confidence": "确证",
+       "tier": "确证"
+      },
+      {
+       "name": "PMI 思考法",
+       "foreign": "PMI (Plus-Minus-Interesting)",
+       "proposer": "爱德华·德博诺",
+       "source": "CoRT 思维课程",
+       "tagline": "面对一个想法，分「优点／缺点／有趣之处」三栏逐一审视。",
+       "confidence": "确证",
+       "tier": "确证"
+      },
+      {
+       "name": "二阶思维",
+       "foreign": "Second-Order Thinking",
+       "proposer": "概念源于经济学；Shane Parrish／Farnam Street 推广",
+       "source": "《The Great Mental Models》；注：马克斯《投资最重要的事》为「第二层次思维(second-level)」，非同一术语",
+       "tagline": "不只问「然后呢」，还要问「再然后呢」——多想一步后果的后果。",
+       "confidence": "主流认定",
+       "tier": "主流认定"
+      },
+      {
+       "name": "元认知",
+       "foreign": "Metacognition",
+       "proposer": "约翰·弗拉维尔",
+       "source": "1976 提出术语",
+       "tagline": "「想自己在想什么」——对自己的思考与学习过程进行觉察和调节。",
+       "confidence": "确证",
+       "tier": "确证"
+      },
+      {
+       "name": "反事实思维",
+       "foreign": "Counterfactual Thinking",
+       "proposer": "心理学界（卡尼曼／罗斯等）",
+       "source": "反事实思维研究",
+       "tagline": "对已发生的事设想「如果当初……」，用来理解情绪、调整判断。",
+       "confidence": "主流认定",
+       "tier": "主流认定"
+      },
+      {
+       "name": "反直觉思考",
+       "foreign": "Counterintuitive Thinking",
+       "proposer": "迈克尔·莫布森",
+       "source": "《反直觉思考》2009",
+       "tagline": "当直觉在复杂系统里频频出错时，主动用反直觉的方式校准判断。",
+       "confidence": "主流认定",
+       "tier": "主流认定"
+      },
+      {
+       "name": "图尔敏论证模型",
+       "foreign": "Toulmin Model",
+       "proposer": "斯蒂芬·图尔敏",
+       "source": "《论证的用途》1958",
+       "tagline": "把论证拆成主张、依据、保证等要素，看清一个结论是怎么撑起来的。",
+       "confidence": "确证",
+       "tier": "确证"
+      },
+      {
+       "name": "地图不等于疆域",
+       "foreign": "Map is not the Territory",
+       "proposer": "阿尔弗雷德·科日布斯基",
+       "source": "《科学与健全心智》1933",
+       "tagline": "模型、说法、数据都不是现实本身，别把描述当成真相。",
+       "confidence": "确证",
+       "tier": "确证"
+      },
+      {
+       "name": "多元思维模型／格栅理论",
+       "foreign": "Latticework of Mental Models",
+       "proposer": "查理·芒格",
+       "source": "1994 南加大演讲、《穷查理宝典》",
+       "tagline": "把各学科的核心模型织成一张网，用它多角度看清问题。",
+       "confidence": "确证",
+       "tier": "确证"
+      },
+      {
+       "name": "心智模式",
+       "foreign": "Mental Models",
+       "proposer": "肯尼斯·克雷克",
+       "source": "克雷克 1943；芒格格栅推广",
+       "tagline": "人脑中对外部世界的简化小模型，我们靠它理解、预测和行动。",
+       "confidence": "主流认定",
+       "tier": "主流认定"
+      },
+      {
+       "name": "思维实验",
+       "foreign": "Thought Experiment",
+       "proposer": "恩斯特·马赫（命名）",
+       "source": "马赫著作；伽利略／爱因斯坦实践",
+       "tagline": "在脑子里做实验——靠想象推演情境，检验理论而不必真动手。",
+       "confidence": "主流认定",
+       "tier": "主流认定"
+      },
+      {
+       "name": "清单思维",
+       "foreign": "Checklist Thinking",
+       "proposer": "阿图·葛文德",
+       "source": "《清单革命》2009",
+       "tagline": "把关键步骤列成清单，靠逐项核对来抵御遗忘和疏漏。",
+       "confidence": "确证",
+       "tier": "确证"
+      },
+      {
+       "name": "满意解（有限理性）",
+       "foreign": "Satisficing / Bounded Rationality",
+       "proposer": "赫伯特·西蒙",
+       "source": "《管理行为》1947",
+       "tagline": "人做决定时不是求最优，而是找到「够好」的就停手。",
+       "confidence": "确证",
+       "tier": "确证"
+      },
+      {
+       "name": "第一性原理",
+       "foreign": "First Principles",
+       "proposer": "亚里士多德；马斯克推广",
+       "source": "《形而上学》《物理学》；马斯克 2012 访谈",
+       "tagline": "从最基本、不能再拆的命题出发去推演，而不是靠类比或照搬现成结论。",
+       "confidence": "确证／主流认定",
+       "tier": "确证·主流"
+      },
+      {
+       "name": "类比推理",
+       "foreign": "Reasoning by Analogy",
+       "proposer": "逻辑学／修辞学集体传统（亚里士多德以来；Mill 1843 形式化）",
+       "source": "亚里士多德著作；Mill《逻辑体系》1843",
+       "tagline": "用熟悉的旧事物去理解陌生的新事物，靠相似性推出结论。",
+       "confidence": "集体沉淀",
+       "tier": "集体沉淀"
+      },
+      {
+       "name": "能力圈",
+       "foreign": "Circle of Competence",
+       "proposer": "巴菲特／芒格",
+       "source": "巴菲特 1996 致股东信、芒格演讲",
+       "tagline": "只在自己真正懂的范围里下判断，边界之外宁可放弃机会。",
+       "confidence": "主流认定",
+       "tier": "主流认定"
+      },
+      {
+       "name": "逆向思维",
+       "foreign": "Inversion",
+       "proposer": "卡尔·雅可比；查理·芒格推广",
+       "source": "雅可比「反过来想」；《穷查理宝典》",
+       "tagline": "反过来想——与其问怎么成功，不如问怎么会失败，再设法避开。",
+       "confidence": "主流认定",
+       "tier": "主流认定"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "num": "二",
+   "name": "博弈与战略思维",
+   "subs": [
+    {
+     "name": "",
+     "items": [
+      {
+       "name": "4C 营销理论",
+       "foreign": "4Cs Marketing",
+       "proposer": "罗伯特·劳特朋",
+       "source": "《Advertising Age》1990",
+       "tagline": "别只盯着自己的四个 P，转过来站到顾客的位置想四件事。",
+       "confidence": "确证",
+       "tier": "确证"
+      },
+      {
+       "name": "4P 营销组合",
+       "foreign": "Marketing Mix 4Ps",
+       "proposer": "杰罗姆·麦卡锡",
+       "source": "《Basic Marketing》1960",
+       "tagline": "做营销就把四件事安排明白：卖什么、卖多少钱、在哪卖、怎么吆喝。",
+       "confidence": "确证",
+       "tier": "确证"
+      },
+      {
+       "name": "GE-麦肯锡九宫格",
+       "foreign": "GE–McKinsey Nine-Box",
+       "proposer": "麦肯锡为通用电气开发（无个人署名）",
+       "source": "1970 年代初",
+       "tagline": "同时看行业好不好、自己强不强，把业务分成九格，决定投谁、撤谁。",
+       "confidence": "集体沉淀（机构）",
+       "tier": "集体沉淀"
+      },
+      {
+       "name": "OODA 循环",
+       "foreign": "OODA Loop",
+       "proposer": "约翰·博伊德",
+       "source": "博伊德空战战略简报",
+       "tagline": "观察—判断—决策—行动，一圈接一圈，比对手更快适应局面。",
+       "confidence": "确证",
+       "tier": "确证"
+      },
+      {
+       "name": "PEST 分析",
+       "foreign": "PEST Analysis",
+       "proposer": "弗朗西斯·阿吉拉尔",
+       "source": "《Scanning the Business Environment》1967（原缩写 ETPS）",
+       "tagline": "出门做买卖前，先看清政治、经济、社会、技术这四片天气。",
+       "confidence": "主流认定",
+       "tier": "主流认定"
+      },
+      {
+       "name": "SERVQUAL 服务质量模型",
+       "foreign": "SERVQUAL",
+       "proposer": "帕拉苏拉曼、齐塞尔、贝里",
+       "source": "《Journal of Retailing》1988",
+       "tagline": "服务质量好不好，看它跟顾客期望差多少，再拆成五个方面量出来。",
+       "confidence": "确证",
+       "tier": "确证"
+      },
+      {
+       "name": "STP 框架",
+       "foreign": "Segmentation-Targeting-Positioning",
+       "proposer": "温德尔·史密斯（细分 1956）；科特勒系统化",
+       "source": "Smith 1956；科特勒《营销管理》",
+       "tagline": "先分人、再选人、最后在选中的人心里占个好位置。",
+       "confidence": "主流认定",
+       "tier": "主流认定"
+      },
+      {
+       "name": "USP 独特卖点",
+       "foreign": "Unique Selling Proposition",
+       "proposer": "罗瑟·里夫斯",
+       "source": "《实效广告》1961",
+       "tagline": "广告只需要说一句话：买我，能得到别家给不了的那个好处。",
+       "confidence": "确证",
+       "tier": "确证"
+      },
+      {
+       "name": "VRIO 分析",
+       "foreign": "VRIO / VRIN",
+       "proposer": "杰伊·巴尼",
+       "source": "《Journal of Management》1991（VRIN 框架）；《Academy of Management Executive》1995（VRIO 四问框架）",
+       "tagline": "一项资源要能持续赚钱，得经得起价值、稀缺、难模仿、组织这四问。",
+       "confidence": "确证",
+       "tier": "确证"
+      },
+      {
+       "name": "三大通用战略",
+       "foreign": "Generic Strategies",
+       "proposer": "迈克尔·波特",
+       "source": "《竞争战略》1980",
+       "tagline": "想在竞争里站稳，只有三条路：要么最便宜，要么最独特，要么只服务一小块。",
+       "confidence": "确证",
+       "tier": "确证"
+      },
+      {
+       "name": "价值链",
+       "foreign": "Value Chain",
+       "proposer": "迈克尔·波特",
+       "source": "《竞争优势》1985",
+       "tagline": "把企业拆成一连串活动，看清价值到底在哪一环被创造出来。",
+       "confidence": "确证",
+       "tier": "确证"
+      },
+      {
+       "name": "信号传递",
+       "foreign": "Signaling",
+       "proposer": "迈克尔·斯宾塞",
+       "source": "1973《QJE》论文",
+       "tagline": "用一个\"骗子装不起、真本事的人相对划算\"的动作，可信地亮出底牌。",
+       "confidence": "确证",
+       "tier": "确证"
+      },
+      {
+       "name": "净推荐值",
+       "foreign": "NPS",
+       "proposer": "弗雷德·赖克哈尔德（贝恩）",
+       "source": "《哈佛商业评论》2003",
+       "tagline": "就问一句\"你愿不愿意推荐给朋友\"，用一个分数看公司长不长。",
+       "confidence": "确证",
+       "tier": "确证"
+      },
+      {
+       "name": "净评估",
+       "foreign": "Net Assessment",
+       "proposer": "安德鲁·马歇尔（国防部 ONA 制度化）",
+       "source": "1973 起净评估办公室方法体系",
+       "tagline": "把我方与对手放在一张表上做长期全方位对比，算出力量消长的净值。",
+       "confidence": "主流认定",
+       "tier": "主流认定"
+      },
+      {
+       "name": "博弈论",
+       "foreign": "Game Theory",
+       "proposer": "冯·诺依曼 & 摩根斯坦",
+       "source": "《博弈论与经济行为》1944",
+       "tagline": "研究\"结果不只由你决定、还取决于别人怎么选\"时，理性的一方该怎么决策。",
+       "confidence": "确证",
+       "tier": "确证"
+      },
+      {
+       "name": "囚徒困境",
+       "foreign": "Prisoner's Dilemma",
+       "proposer": "Flood & Dresher 设计；塔克命名",
+       "source": "兰德公司 1950",
+       "tagline": "两个人各自打小算盘时，反而会一起落到对双方都更差的结果上。",
+       "confidence": "主流认定",
+       "tier": "主流认定"
+      },
+      {
+       "name": "威慑理论",
+       "foreign": "Deterrence / Compellence",
+       "proposer": "托马斯·谢林",
+       "source": "《冲突的战略》1960",
+       "tagline": "用\"你若动手、必遭重创\"的可信威胁，让对方一开始就不敢动手。",
+       "confidence": "确证",
+       "tier": "确证"
+      },
+      {
+       "name": "安索夫矩阵",
+       "foreign": "Ansoff Matrix",
+       "proposer": "伊戈尔·安索夫",
+       "source": "《哈佛商业评论》1957",
+       "tagline": "想增长，无非是老产品新市场、新产品老市场，或者两头都换的四种组合。",
+       "confidence": "确证",
+       "tier": "确证"
+      },
+      {
+       "name": "定位理论",
+       "foreign": "Positioning",
+       "proposer": "艾·里斯 & 杰克·特劳特",
+       "source": "《定位》1981",
+       "tagline": "竞争不在货架上，而在顾客的脑子里——抢一个空位子。",
+       "confidence": "确证",
+       "tier": "确证"
+      },
+      {
+       "name": "懦夫博弈",
+       "foreign": "Chicken Game",
+       "proposer": "博弈论经典模型",
+       "source": "博弈论教科书",
+       "tagline": "双方都拼命向对方证明\"我绝不让\"，比谁更敢赌，一旦都误判就双输。",
+       "confidence": "主流认定",
+       "tier": "主流认定"
+      },
+      {
+       "name": "战略欺骗",
+       "foreign": "Strategic Deception",
+       "proposer": "巴顿·惠利（系统研究奠基）",
+       "source": "《Stratagem》1969",
+       "tagline": "主动让对手知道\"错的东西\"，操纵他的判断，而不只是瞒着他。",
+       "confidence": "主流认定",
+       "tier": "主流认定"
+      },
+      {
+       "name": "智猪博弈",
+       "foreign": "Boxed Pigs Game",
+       "proposer": "博弈论经典模型",
+       "source": "博弈论教科书",
+       "tagline": "强弱悬殊、回报不对等时，弱者搭便车、强者被迫出力，反而可能稳定。",
+       "confidence": "主流认定",
+       "tier": "主流认定"
+      },
+      {
+       "name": "最后通牒博弈",
+       "foreign": "Ultimatum Game",
+       "proposer": "维尔纳·居特等",
+       "source": "1982 实验",
+       "tagline": "分钱时人计较公平：报价太苛刻，对方宁肯谁都别拿也要拒绝。",
+       "confidence": "主流认定",
+       "tier": "主流认定"
+      },
+      {
+       "name": "杨三角",
+       "foreign": "Yang Triangle",
+       "proposer": "杨国安",
+       "source": "《组织能力的杨三角》2009",
+       "tagline": "战略再好，也要靠三根柱子把组织能力撑起来，否则落不了地。",
+       "confidence": "确证",
+       "tier": "确证"
+      },
+      {
+       "name": "枪手博弈",
+       "foreign": "Truel / Gunfighter Game",
+       "proposer": "博弈论经典模型",
+       "source": "博弈论教科书",
+       "tagline": "多方竞争中，领先者易成公敌，弱者借势存活，\"示弱\"有时是策略。",
+       "confidence": "主流认定",
+       "tier": "主流认定"
+      },
+      {
+       "name": "核心竞争力",
+       "foreign": "Core Competence",
+       "proposer": "普拉哈拉德 & 哈默",
+       "source": "1990《哈佛商业评论》",
+       "tagline": "找到公司里别人学不走的那一手，然后围绕它长出新生意。",
+       "confidence": "确证",
+       "tier": "确证"
+      },
+      {
+       "name": "波士顿矩阵",
+       "foreign": "BCG Matrix",
+       "proposer": "布鲁斯·亨德森（BCG）",
+       "source": "1970 年代",
+       "tagline": "用手上的现金，养明天的明星，砍掉拖后腿的包袱。",
+       "confidence": "确证",
+       "tier": "确证"
+      },
+      {
+       "name": "波特五力",
+       "foreign": "Porter's Five Forces",
+       "proposer": "迈克尔·波特",
+       "source": "《竞争战略》1980",
+       "tagline": "看一个行业赚不赚钱，盯住五种挤压利润的力量就够了。",
+       "confidence": "确证",
+       "tier": "确证"
+      },
+      {
+       "name": "猎鹿博弈",
+       "foreign": "Stag Hunt",
+       "proposer": "卢梭溯源；博弈论",
+       "source": "博弈论教科书",
+       "tagline": "合作收益大，但难在谁也怕别人中途跑去抓小兔子、撂下大伙儿。",
+       "confidence": "主流认定",
+       "tier": "主流认定"
+      },
+      {
+       "name": "第二曲线",
+       "foreign": "Second Curve",
+       "proposer": "查尔斯·汉迪；李善友推广",
+       "source": "《第二曲线》",
+       "tagline": "趁着第一条曲线还没见顶，就动手开辟下一条增长路。",
+       "confidence": "主流认定",
+       "tier": "主流认定"
+      },
+      {
+       "name": "红队思维",
+       "foreign": "Red Teaming",
+       "proposer": "冷战兰德／美军红队传统（集体）；9·11 后 CIA／UFMCS 制度化",
+       "source": "美军《Red Team Handbook》；Hoffman 2017",
+       "tagline": "专门组织一批人扮对手、唱反调，逼出被共识掩盖的风险和漏洞。",
+       "confidence": "集体沉淀",
+       "tier": "集体沉淀"
+      },
+      {
+       "name": "纳什均衡",
+       "foreign": "Nash Equilibrium",
+       "proposer": "约翰·纳什",
+       "source": "纳什 1950 论文",
+       "tagline": "一种\"谁都懒得再动\"的稳定局面：单方面改变选择只会让自己更差。",
+       "confidence": "确证",
+       "tier": "确证"
+      },
+      {
+       "name": "重复博弈",
+       "foreign": "Repeated Game",
+       "proposer": "博弈论",
+       "source": "博弈论框架",
+       "tagline": "有了\"下一局\"，人才会为长远好处克制眼前占便宜，合作因此可能。",
+       "confidence": "主流认定",
+       "tier": "主流认定"
+      },
+      {
+       "name": "重心分析",
+       "foreign": "Center of Gravity Analysis",
+       "proposer": "克劳塞维茨",
+       "source": "《战争论》1832",
+       "tagline": "找出敌方赖以支撑的那一点，集中力量猛击，以求事半功倍。",
+       "confidence": "确证",
+       "tier": "确证"
+      },
+      {
+       "name": "间接路线战略",
+       "foreign": "Indirect Approach",
+       "proposer": "利德尔·哈特",
+       "source": "《战略论》",
+       "tagline": "不正面硬碰，靠迂回与出人意料打乱对手，以较小代价取胜。",
+       "confidence": "确证",
+       "tier": "确证"
+      },
+      {
+       "name": "零和／正和博弈",
+       "foreign": "Zero-Sum / Positive-Sum",
+       "proposer": "博弈论",
+       "source": "博弈论框架",
+       "tagline": "先问一句：我们是在分一块固定的饼，还是能一起把饼做大。",
+       "confidence": "主流认定",
+       "tier": "主流认定"
+      },
+      {
+       "name": "颠覆式创新",
+       "foreign": "Disruptive Innovation",
+       "proposer": "克莱顿·克里斯坦森",
+       "source": "《创新者的窘境》1997",
+       "tagline": "大公司看不上的低端小市场，常常长成把它掀翻的新巨头。",
+       "confidence": "确证",
+       "tier": "确证"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "num": "三",
+   "name": "决策框架与思考方法",
+   "subs": [
+    {
+     "name": "",
+     "items": [
+      {
+       "name": "10/10/10 法则",
+       "foreign": "10/10/10 Rule",
+       "proposer": "苏茜·韦尔奇",
+       "source": "《10-10-10》2009",
+       "tagline": "拿不定主意时，问自己这个选择在 10 分钟、10 个月、10 年后分别会怎样。",
+       "confidence": "主流认定",
+       "tier": "主流认定"
+      },
+      {
+       "name": "8D 问题求解",
+       "foreign": "8 Disciplines",
+       "proposer": "福特汽车",
+       "source": "福特 8D 方法",
+       "tagline": "一套八步走的团队问题解决流程，专治反复出现的质量问题。",
+       "confidence": "主流认定",
+       "tier": "主流认定"
+      },
+      {
+       "name": "GTD",
+       "foreign": "Getting Things Done",
+       "proposer": "戴维·艾伦",
+       "source": "《搞定》2001",
+       "tagline": "把脑子里所有待办都倒出来记下，脑子才腾得出来想正事。",
+       "confidence": "确证",
+       "tier": "确证"
+      },
+      {
+       "name": "KJ法／亲和图",
+       "foreign": "KJ Method / Affinity Diagram",
+       "proposer": "川喜田二郎",
+       "source": "《发想法》1967",
+       "tagline": "把一堆杂乱的卡纸条，按意思相近归堆，理出问题的结构。",
+       "confidence": "确证",
+       "tier": "确证"
+      },
+      {
+       "name": "KT 决策法",
+       "foreign": "Kepner-Tregoe",
+       "proposer": "凯普纳 & 特里戈",
+       "source": "《理性经理人》1965",
+       "tagline": "一套把问题分析和决策拆成明确步骤的理性管理方法。",
+       "confidence": "主流认定",
+       "tier": "主流认定"
+      },
+      {
+       "name": "MECE",
+       "foreign": "MECE",
+       "proposer": "芭芭拉·明托（麦肯锡）",
+       "source": "《金字塔原理》",
+       "tagline": "把一个大问题拆成互不重叠、合起来又完整的几块，拆得干净利落。",
+       "confidence": "确证",
+       "tier": "确证"
+      },
+      {
+       "name": "OKR",
+       "foreign": "Objectives and Key Results",
+       "proposer": "安迪·格鲁夫；约翰·杜尔推广",
+       "source": "Intel 实践；杜尔《这就是 OKR》",
+       "tagline": "用「目标＋关键结果」两张单子，把全公司往同一个方向拧。",
+       "confidence": "确证",
+       "tier": "确证"
+      },
+      {
+       "name": "PDCA 循环",
+       "foreign": "PDCA / Deming Cycle",
+       "proposer": "休哈特；戴明推广",
+       "source": "统计过程控制；质量管理",
+       "tagline": "计划、执行、检查、再改进，一圈一圈把事越做越好。",
+       "confidence": "主流认定",
+       "tier": "主流认定"
+      },
+      {
+       "name": "PREP 法",
+       "foreign": "Point-Reason-Example-Point",
+       "proposer": "沟通教材沉淀，无明确个人提出者",
+       "source": "演讲／沟通培训教材",
+       "tagline": "表达观点就用「结论—理由—例子—再结论」，几句话把事说清楚。",
+       "confidence": "集体沉淀",
+       "tier": "集体沉淀"
+      },
+      {
+       "name": "SCAMPER",
+       "foreign": "SCAMPER",
+       "proposer": "奥斯本；鲍勃·艾伯尔整理",
+       "source": "奥斯本检核表法",
+       "tagline": "七个小动作，换个角度把老东西改出新花样。",
+       "confidence": "主流认定",
+       "tier": "主流认定"
+      },
+      {
+       "name": "SCQA 框架",
+       "foreign": "SCQA",
+       "proposer": "芭芭拉·明托",
+       "source": "《金字塔原理》",
+       "tagline": "开口先讲背景和冲突、抛出问题，再给答案，让对方顺着你的思路听下去。",
+       "confidence": "确证",
+       "tier": "确证"
+      },
+      {
+       "name": "SMART 原则",
+       "foreign": "SMART Criteria",
+       "proposer": "乔治·多兰",
+       "source": "1981 论文",
+       "tagline": "定目标时照这五条检查，目标才立得住、能落地。",
+       "confidence": "主流认定",
+       "tier": "主流认定"
+      },
+      {
+       "name": "SQ3R 阅读法",
+       "foreign": "SQ3R",
+       "proposer": "弗朗西斯·罗宾逊",
+       "source": "《Effective Study》1946",
+       "tagline": "读课本分五步——浏览、提问、精读、复述、复习，把被动读变成主动学。",
+       "confidence": "确证",
+       "tier": "确证"
+      },
+      {
+       "name": "STAR 法则",
+       "foreign": "STAR",
+       "proposer": "William C. Byham／DDI",
+       "source": "DDI Targeted Selection 行为面试系统 1974",
+       "tagline": "讲经历按「情境—任务—行动—结果」四步说，既完整又有说服力。",
+       "confidence": "确证",
+       "tier": "确证"
+      },
+      {
+       "name": "TRIZ",
+       "foreign": "TRIZ",
+       "proposer": "根里奇·阿奇舒勒",
+       "source": "苏联发明问题解决理论",
+       "tagline": "从二十万件专利里找规律，把发明变成有套路的解题。",
+       "confidence": "主流认定",
+       "tier": "主流认定"
+      },
+      {
+       "name": "乔哈里视窗",
+       "foreign": "Johari Window",
+       "proposer": "约瑟夫·勒夫特 & 哈里·英厄姆",
+       "source": "1955 提出",
+       "tagline": "把「我知道／不知道」和「别人知道／不知道」交叉成四格，看清盲区。",
+       "confidence": "确证",
+       "tier": "确证"
+      },
+      {
+       "name": "事前验尸",
+       "foreign": "Premortem",
+       "proposer": "加里·克莱因",
+       "source": "《哈佛商业评论》2007",
+       "tagline": "动手前先假装事情已经彻底失败，倒着想「它为什么会砸」。",
+       "confidence": "确证",
+       "tier": "确证"
+      },
+      {
+       "name": "五个为什么",
+       "foreign": "5 Whys",
+       "proposer": "丰田生产系统（大野耐一等）",
+       "source": "丰田生产方式",
+       "tagline": "连着问五次「为什么」，一路刨到问题的根子。",
+       "confidence": "主流认定",
+       "tier": "主流认定"
+      },
+      {
+       "name": "假设驱动",
+       "foreign": "Hypothesis-Driven",
+       "proposer": "麦肯锡",
+       "source": "麦肯锡问题求解方法",
+       "tagline": "先大胆提出一个答案，再去找证据证实或推翻它，省掉瞎摸索。",
+       "confidence": "主流认定",
+       "tier": "主流认定"
+      },
+      {
+       "name": "六顶思考帽",
+       "foreign": "Six Thinking Hats",
+       "proposer": "爱德华·德博诺",
+       "source": "《六顶思考帽》1985",
+       "tagline": "开会时让所有人同一时间只戴一顶「帽子」，一次只想一件事。",
+       "confidence": "确证",
+       "tier": "确证"
+      },
+      {
+       "name": "决策树",
+       "foreign": "Decision Tree",
+       "proposer": "John Magee（1964 HBR 首发）／Howard Raiffa（1968 奠基）",
+       "source": "Magee HBR 1964；Raiffa《Decision Analysis》1968",
+       "tagline": "把选择一条条画成像树杈那样的分叉图，算出每条路值不值得走。",
+       "confidence": "主流认定",
+       "tier": "主流认定"
+      },
+      {
+       "name": "刻意练习",
+       "foreign": "Deliberate Practice",
+       "proposer": "安德斯·艾利克森",
+       "source": "《刻意练习》",
+       "tagline": "不是重复做，而是锁定薄弱点、拿到即时反馈、持续突破舒适区的高效练习方式。",
+       "confidence": "确证",
+       "tier": "确证"
+      },
+      {
+       "name": "卡片盒笔记法",
+       "foreign": "Zettelkasten",
+       "proposer": "尼克拉斯·卢曼",
+       "source": "卢曼自述 1981",
+       "tagline": "每张笔记只写一个想法，靠编号和链接让它们自己长成一张知识网络。",
+       "confidence": "确证",
+       "tier": "确证"
+      },
+      {
+       "name": "双环学习",
+       "foreign": "Double-Loop Learning",
+       "proposer": "阿吉里斯 & 舍恩",
+       "source": "1970 年代组织学习",
+       "tagline": "出了问题不只把事做对，还要回头质疑目标和前提本身对不对。",
+       "confidence": "确证",
+       "tier": "确证"
+      },
+      {
+       "name": "反思性实践",
+       "foreign": "Reflective Practice",
+       "proposer": "唐纳德·舍恩",
+       "source": "《反思性实践者》1983",
+       "tagline": "专业高手不照本宣科，而是在做事当下不断察觉并调整自己的判断。",
+       "confidence": "确证",
+       "tier": "确证"
+      },
+      {
+       "name": "名义群体法",
+       "foreign": "Nominal Group Technique",
+       "proposer": "德尔贝克 & 范德文",
+       "source": "1968 开发；1971 论文",
+       "tagline": "让每个人先独立写想法、再轮流说、再投票，压住嗓门大的人带偏全场。",
+       "confidence": "确证",
+       "tier": "确证"
+      },
+      {
+       "name": "商业模式画布",
+       "foreign": "Business Model Canvas",
+       "proposer": "亚历山大·奥斯特瓦德",
+       "source": "《商业模式新生代》2008",
+       "tagline": "用九块方格，把一门生意怎么赚钱一次说清楚。",
+       "confidence": "确证",
+       "tier": "确证"
+      },
+      {
+       "name": "喜诺芬框架",
+       "foreign": "Cynefin Framework",
+       "proposer": "戴夫·斯诺登",
+       "source": "1999 IBM；Snowden & Kurtz 2003",
+       "tagline": "先判断眼前问题是哪一种类型，再选用配得上它的处理办法。",
+       "confidence": "确证",
+       "tier": "确证"
+      },
+      {
+       "name": "复盘／事后回顾",
+       "foreign": "After Action Review",
+       "proposer": "美国陆军（集体发展；NTC 制度化）；柳传志推广",
+       "source": "美军 1970s；FM 25-101 1990",
+       "tagline": "一件事做完，趁热对照「原计划」和「实际发生」，把经验提炼成下次能用的东西。",
+       "confidence": "集体沉淀（机构）",
+       "tier": "集体沉淀"
+      },
+      {
+       "name": "头脑风暴",
+       "foreign": "Brainstorming",
+       "proposer": "亚历克斯·奥斯本",
+       "source": "《创造性想象》1953",
+       "tagline": "一群人先只管往外抛想法，不许批评，等凑够了再挑。",
+       "confidence": "确证",
+       "tier": "确证"
+      },
+      {
+       "name": "奥斯本检核表法",
+       "foreign": "Osborn's Checklist",
+       "proposer": "亚历克斯·奥斯本",
+       "source": "奥斯本创造技法",
+       "tagline": "对着九类问题挨个问，逼出改进和创新的点子。",
+       "confidence": "确证",
+       "tier": "确证"
+      },
+      {
+       "name": "子弹笔记法",
+       "foreign": "Bullet Journal",
+       "proposer": "莱德·卡罗尔",
+       "source": "2013 公开；《The Bullet Journal Method》2018",
+       "tagline": "用一个本子把待办、笔记、计划混在一起，靠符号和索引统管生活。",
+       "confidence": "确证",
+       "tier": "确证"
+      },
+      {
+       "name": "层次分析法",
+       "foreign": "AHP",
+       "proposer": "托马斯·萨蒂",
+       "source": "《The Analytic Hierarchy Process》1980",
+       "tagline": "把复杂的多标准选择拆成两两比较谁更重要，再算出各方案的得分。",
+       "confidence": "确证",
+       "tier": "确证"
+      },
+      {
+       "name": "平衡计分卡",
+       "foreign": "Balanced Scorecard",
+       "proposer": "卡普兰 & 诺顿",
+       "source": "1992《哈佛商业评论》",
+       "tagline": "光看财务数字不够，还得从客户、流程、成长几面一起量。",
+       "confidence": "确证",
+       "tier": "确证"
+      },
+      {
+       "name": "库伯学习圈",
+       "foreign": "Kolb Learning Cycle",
+       "proposer": "大卫·库伯",
+       "source": "《体验学习》1984",
+       "tagline": "学习是「做—想—总结—再试」的循环，转一圈长一分，螺旋上升。",
+       "confidence": "确证",
+       "tier": "确证"
+      },
+      {
+       "name": "康奈尔笔记法",
+       "foreign": "Cornell Note-Taking",
+       "proposer": "沃尔特·波克",
+       "source": "《How to Study in College》1962",
+       "tagline": "把一页纸分成三块，逼你课上记、课后想、复习时遮着考自己。",
+       "confidence": "确证",
+       "tier": "确证"
+      },
+      {
+       "name": "弗鲁姆-耶顿决策模型",
+       "foreign": "Vroom–Yetton(–Jago)",
+       "proposer": "弗鲁姆 & 耶顿",
+       "source": "《Leadership and Decision-Making》1973",
+       "tagline": "按问题性质和团队情况，教你决定该自己拍板还是让大家一起定。",
+       "confidence": "确证",
+       "tier": "确证"
+      },
+      {
+       "name": "形态分析",
+       "foreign": "Morphological Analysis",
+       "proposer": "弗里茨·茨维基",
+       "source": "1940 年代；《Morphological Astronomy》1957",
+       "tagline": "把问题拆成几个维度，各列出选项，再组合出所有可能方案。",
+       "confidence": "确证",
+       "tier": "确证"
+      },
+      {
+       "name": "影响地图",
+       "foreign": "Impact Mapping",
+       "proposer": "戈伊科·阿季奇",
+       "source": "《Impact Mapping》2012",
+       "tagline": "用「为什么—谁—怎样—做什么」四层图，把要做的事挂到目标上。",
+       "confidence": "确证",
+       "tier": "确证"
+      },
+      {
+       "name": "待办任务理论",
+       "foreign": "Jobs to Be Done",
+       "proposer": "克里斯坦森（普及）；Tony Ulwick（先驱 1990）",
+       "source": "《创新者的解答》2003；《Competing Against Luck》2016",
+       "tagline": "顾客买的不是产品，是拿它去完成一件想办成的事。",
+       "confidence": "主流认定",
+       "tier": "主流认定"
+      },
+      {
+       "name": "德尔菲法",
+       "foreign": "Delphi Method",
+       "proposer": "兰德公司（达尔基／赫尔默）",
+       "source": "兰德 1950 年代",
+       "tagline": "让专家背对背多轮匿名打分，逐步收敛出共识。",
+       "confidence": "确证",
+       "tier": "确证"
+      },
+      {
+       "name": "思维导图",
+       "foreign": "Mind Map",
+       "proposer": "东尼·博赞",
+       "source": "BBC 节目与《Use Your Head》1974",
+       "tagline": "从一个中心词向外发散画成树状图，把一堆想法和关系一眼看全。",
+       "confidence": "确证",
+       "tier": "确证"
+      },
+      {
+       "name": "情景规划",
+       "foreign": "Scenario Planning",
+       "proposer": "赫尔曼·卡恩（RAND）；Pierre Wack（壳牌落地）",
+       "source": "卡恩 RAND／哈德逊；Wack 壳牌 1970s",
+       "tagline": "先编出几个「未来可能长什么样」的故事，再倒推今天该做什么准备。",
+       "confidence": "主流认定",
+       "tier": "主流认定"
+      },
+      {
+       "name": "成本效益分析",
+       "foreign": "Cost-Benefit Analysis",
+       "proposer": "朱尔·杜皮伊特",
+       "source": "1848 论文",
+       "tagline": "把一件事的好处和代价都折算成钱，比较值不值得做。",
+       "confidence": "主流认定",
+       "tier": "主流认定"
+      },
+      {
+       "name": "整体性学习",
+       "foreign": "Holistic Learning",
+       "proposer": "斯科特·扬",
+       "source": "斯科特·扬学习法",
+       "tagline": "别把知识当孤立的点死记，要把新东西挂到自己已有的知识网上。",
+       "confidence": "主流认定",
+       "tier": "主流认定"
+      },
+      {
+       "name": "曼陀罗思考法",
+       "foreign": "Mandal-Art（マンダラート）",
+       "proposer": "今泉浩晃",
+       "source": "1987（受曼荼罗结构启发）",
+       "tagline": "九宫格里围着中心写八项，每项再展开成新的九宫格。",
+       "confidence": "主流认定",
+       "tier": "主流认定"
+      },
+      {
+       "name": "概念图",
+       "foreign": "Concept Map",
+       "proposer": "约瑟夫·诺瓦克（与 Bob Gowin）",
+       "source": "1972 康奈尔；《Learning How to Learn》1984",
+       "tagline": "用「概念—连线—连接词」画出知识之间的层级关系，看清谁包含谁、谁导致谁。",
+       "confidence": "确证",
+       "tier": "确证"
+      },
+      {
+       "name": "水平思考",
+       "foreign": "Lateral Thinking",
+       "proposer": "爱德华·德博诺",
+       "source": "《水平思考》1967",
+       "tagline": "换个方向绕开老思路，靠「歪打正着」找新点子。",
+       "confidence": "确证",
+       "tier": "确证"
+      },
+      {
+       "name": "番茄工作法",
+       "foreign": "Pomodoro Technique",
+       "proposer": "弗朗西斯科·西里洛",
+       "source": "西里洛 1980 年代",
+       "tagline": "专注 25 分钟、休息 5 分钟，几个循环后长休一次，用时间盒逼出专注。",
+       "confidence": "确证",
+       "tier": "确证"
+      },
+      {
+       "name": "目标管理",
+       "foreign": "Management by Objectives",
+       "proposer": "彼得·德鲁克",
+       "source": "《管理的实践》1954",
+       "tagline": "让上下级一起定目标，再用目标来管过程、评结果。",
+       "confidence": "确证",
+       "tier": "确证"
+      },
+      {
+       "name": "空雨伞（事实—解释—行动）",
+       "foreign": "Fact–Interpretation–Action",
+       "proposer": "麦肯锡内部沉淀（大岛祥誉等普及，无单一提出者）",
+       "source": "大岛祥誉《麦肯锡笔记思考法》2010",
+       "tagline": "看事实、想含义、定行动三步走，让分析真正落到「该做什么」。",
+       "confidence": "集体沉淀（机构）",
+       "tier": "集体沉淀"
+      },
+      {
+       "name": "组合创新",
+       "foreign": "Combinatorial Innovation",
+       "proposer": "约瑟夫·熊彼特",
+       "source": "《经济发展理论》「新组合」",
+       "tagline": "创新不一定是发明新东西，把已有的重新搭一遍也是创新。",
+       "confidence": "主流认定",
+       "tier": "主流认定"
+      },
+      {
+       "name": "综摄法",
+       "foreign": "Synectics",
+       "proposer": "威廉·戈登",
+       "source": "《Synectics》1961",
+       "tagline": "靠打比方、换身份、反着想，把陌生的问题变熟、把熟的问题变陌生。",
+       "confidence": "确证",
+       "tier": "确证"
+      },
+      {
+       "name": "艾森豪威尔矩阵",
+       "foreign": "Eisenhower Matrix",
+       "proposer": "艾森豪威尔（1954 演讲转述）；柯维 1989 画出四象限",
+       "source": "《高效能人士的七个习惯》1989",
+       "tagline": "按「重要」和「紧急」两把尺子，把待办分成四格来决定先做啥。",
+       "confidence": "主流认定",
+       "tier": "主流认定"
+      },
+      {
+       "name": "莲花思考法",
+       "foreign": "Lotus Blossom",
+       "proposer": "松村宁雄",
+       "source": "Clover Management 1980 年代",
+       "tagline": "一个中心主题，向外长出八条，再各长八条，像花瓣一层层铺开。",
+       "confidence": "主流认定",
+       "tier": "主流认定"
+      },
+      {
+       "name": "蓝海战略",
+       "foreign": "Blue Ocean Strategy",
+       "proposer": "金伟灿 & 莫博涅",
+       "source": "《蓝海战略》2005",
+       "tagline": "别在红海里拼价格，去没人抢的新市场做一片蓝海。",
+       "confidence": "确证",
+       "tier": "确证"
+      },
+      {
+       "name": "要事第一",
+       "foreign": "First Things First",
+       "proposer": "史蒂芬·柯维",
+       "source": "《高效能人士的七个习惯》",
+       "tagline": "先做重要但不紧急的事，别被急事牵着走。",
+       "confidence": "确证",
+       "tier": "确证"
+      },
+      {
+       "name": "议题树",
+       "foreign": "Issue Tree",
+       "proposer": "麦肯锡",
+       "source": "麦肯锡结构化方法",
+       "tagline": "把要解决的「关键议题」逐层拆开，确保分析不跑偏、不遗漏。",
+       "confidence": "主流认定",
+       "tier": "主流认定"
+      },
+      {
+       "name": "设计冲刺",
+       "foreign": "Design Sprint",
+       "proposer": "杰克·纳普（Google Ventures）",
+       "source": "《设计冲刺》2016",
+       "tagline": "五天里做出可点原型，找真人测验，一次把想法验明白。",
+       "confidence": "确证",
+       "tier": "确证"
+      },
+      {
+       "name": "识别启动决策（RPD）",
+       "foreign": "Recognition-Primed Decision",
+       "proposer": "加里·克莱因",
+       "source": "《Sources of Power》1998",
+       "tagline": "老手靠经验一眼认出情境，直接调出可行方案，而不是逐个比较选项。",
+       "confidence": "确证",
+       "tier": "确证"
+      },
+      {
+       "name": "费曼学习法",
+       "foreign": "Feynman Technique",
+       "proposer": "理查德·费曼",
+       "source": "费曼教学法",
+       "tagline": "用「讲给外行听」的方式检验自己是否真懂，讲不通的地方就是没学会的地方。",
+       "confidence": "主流认定",
+       "tier": "主流认定"
+      },
+      {
+       "name": "辩证探询法",
+       "foreign": "Dialectical Inquiry",
+       "proposer": "理查德·梅森；与米特罗夫共同发展",
+       "source": "《Management Science》1969",
+       "tagline": "让两组人分别提出正反两套方案硬碰硬，再综合出更完整的结论。",
+       "confidence": "确证",
+       "tier": "确证"
+      },
+      {
+       "name": "逻辑树",
+       "foreign": "Logic Tree",
+       "proposer": "麦肯锡",
+       "source": "麦肯锡结构化方法",
+       "tagline": "把一个难题一层层拆成小问题，像树枝一样铺开，方便逐块解决。",
+       "confidence": "主流认定",
+       "tier": "主流认定"
+      },
+      {
+       "name": "金字塔原理",
+       "foreign": "Pyramid Principle",
+       "proposer": "芭芭拉·明托",
+       "source": "《金字塔原理》",
+       "tagline": "把结论放最前，再一层层往下给理由，让表达一开口就说到点子上。",
+       "confidence": "确证",
+       "tier": "确证"
+      },
+      {
+       "name": "间隔重复",
+       "foreign": "Spaced Repetition",
+       "proposer": "艾宾浩斯（遗忘曲线）",
+       "source": "艾宾浩斯 1885 研究",
+       "tagline": "别一次猛背，要在快忘的时候正好复习，用越来越长的间隔把知识钉牢。",
+       "confidence": "确证",
+       "tier": "确证"
+      },
+      {
+       "name": "非暴力沟通",
+       "foreign": "Nonviolent Communication",
+       "proposer": "马歇尔·卢森堡",
+       "source": "《非暴力沟通》",
+       "tagline": "好好说话，用「观察—感受—需要—请求」四步代替指责和评判。",
+       "confidence": "确证",
+       "tier": "确证"
+      },
+      {
+       "name": "魔鬼代言人",
+       "foreign": "Devil's Advocacy",
+       "proposer": "天主教会列圣审查（1587）；贾尼斯 1972 引入群体决策",
+       "source": "贾尼斯《群体迷思》1972",
+       "tagline": "故意安排一个人站出来挑刺唱反调，逼决策者把风险想透。",
+       "confidence": "集体沉淀",
+       "tier": "集体沉淀"
+      },
+      {
+       "name": "鱼骨图／因果图",
+       "foreign": "Fishbone / Ishikawa Diagram",
+       "proposer": "石川馨",
+       "source": "1960 年代品质管理",
+       "tagline": "把造成问题的各种原因画成鱼骨头，一眼看清从哪儿找根源。",
+       "confidence": "确证",
+       "tier": "确证"
+      },
+      {
+       "name": "鸿沟理论",
+       "foreign": "Crossing the Chasm",
+       "proposer": "杰弗里·摩尔",
+       "source": "《Crossing the Chasm》1991",
+       "tagline": "高科技产品从早期买家走向主流大众之间，有一道容易掉进去的鸿沟。",
+       "confidence": "确证",
+       "tier": "确证"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "num": "四",
+   "name": "系统与科学思维范式",
+   "subs": [
+    {
+     "name": "",
+     "items": [
+      {
+       "name": "元学习",
+       "foreign": "Meta-Learning",
+       "proposer": "多源：教育 Maudsley 1979／Biggs 1985；AI Schmidhuber 1987／Thrun&Pratt 1998；源头 Bateson 1972",
+       "source": "分领域奠基文献",
+       "tagline": "想的是「怎么学」这件事本身，让自己更快地学会新东西。",
+       "confidence": "主流认定",
+       "tier": "主流认定"
+      },
+      {
+       "name": "可证伪性",
+       "foreign": "Falsifiability",
+       "proposer": "卡尔·波普尔",
+       "source": "《科学发现的逻辑》1934",
+       "tagline": "一个说法要算科学，得能说清楚「什么情况下它就算错了」。",
+       "confidence": "确证",
+       "tier": "确证"
+      },
+      {
+       "name": "复杂性思维",
+       "foreign": "Complexity Thinking",
+       "proposer": "圣塔菲研究所等",
+       "source": "复杂性科学",
+       "tagline": "面对一堆互相纠缠、会自己变化的东西，别指望精确预测，学着顺应它。",
+       "confidence": "主流认定",
+       "tier": "主流认定"
+      },
+      {
+       "name": "复杂适应系统",
+       "foreign": "Complex Adaptive Systems",
+       "proposer": "约翰·霍兰德（术语首出 Buckley 1968）",
+       "source": "《Hidden Order》1995",
+       "tagline": "一群会互相学习、会随时改策略的主体凑在一起，整体就自己变得很聪明。",
+       "confidence": "主流认定",
+       "tier": "主流认定"
+      },
+      {
+       "name": "学习型组织／第五项修炼",
+       "foreign": "Fifth Discipline",
+       "proposer": "彼得·圣吉",
+       "source": "《第五项修炼》1990",
+       "tagline": "把组织变成一个会自我学习、持续进化的整体，而不是一台死机器。",
+       "confidence": "确证",
+       "tier": "确证"
+      },
+      {
+       "name": "成长型思维",
+       "foreign": "Growth Mindset",
+       "proposer": "卡罗尔·德韦克（含对照「固定型思维」）",
+       "source": "《终身成长》2006",
+       "tagline": "能力可以靠努力和练习长出来，不是生下来就固定的。",
+       "confidence": "确证",
+       "tier": "确证"
+      },
+      {
+       "name": "批判性思维",
+       "foreign": "Critical Thinking",
+       "proposer": "苏格拉底溯源；杜威（现代，术语为「反省思维」）",
+       "source": "杜威《我们如何思维》1910",
+       "tagline": "不轻信，先问证据够不够、推理有没有漏洞，再下判断。",
+       "confidence": "主流认定",
+       "tier": "主流认定"
+      },
+      {
+       "name": "控制论（反馈思维）",
+       "foreign": "Cybernetics",
+       "proposer": "诺伯特·维纳",
+       "source": "《控制论》1948",
+       "tagline": "盯着结果回头调动作，用反馈让系统自己稳定到想要的目标上。",
+       "confidence": "确证",
+       "tier": "确证"
+      },
+      {
+       "name": "整体论",
+       "foreign": "Holism",
+       "proposer": "扬·斯马茨",
+       "source": "《整体论与进化》1926",
+       "tagline": "整体不等于零件之和，得把对象当成一个有组织的整体来看。",
+       "confidence": "主流认定",
+       "tier": "主流认定"
+      },
+      {
+       "name": "杠杆点",
+       "foreign": "Leverage Points",
+       "proposer": "唐内拉·梅多斯",
+       "source": "《系统的杠杆点》1997/1999",
+       "tagline": "在系统里找那个「四两拨千斤」的着力点，小干预也能引发大变化。",
+       "confidence": "确证",
+       "tier": "确证"
+      },
+      {
+       "name": "演化思维",
+       "foreign": "Evolutionary Thinking",
+       "proposer": "查尔斯·达尔文",
+       "source": "《物种起源》1859",
+       "tagline": "靠变异、选择、遗传这三件事，慢慢筛出最能适应环境的东西。",
+       "confidence": "确证",
+       "tier": "确证"
+      },
+      {
+       "name": "科学方法",
+       "foreign": "Scientific Method",
+       "proposer": "培根／伽利略等",
+       "source": "科学革命",
+       "tagline": "先猜想，再设计能检验的实验，看数据说话，能被推翻的才算数。",
+       "confidence": "主流认定",
+       "tier": "主流认定"
+      },
+      {
+       "name": "系统基模",
+       "foreign": "Systems Archetypes",
+       "proposer": "彼得·圣吉（根植福雷斯特系统动力学）",
+       "source": "《第五项修炼》1990",
+       "tagline": "把反复出现的坏结构归纳成几个套路，认出来就能提前拆招。",
+       "confidence": "主流认定",
+       "tier": "主流认定"
+      },
+      {
+       "name": "系统思维",
+       "foreign": "Systems Thinking",
+       "proposer": "贝塔朗菲；福雷斯特；梅多斯",
+       "source": "《一般系统论》；《系统之美》",
+       "tagline": "别只盯着单个零件看，要看零件之间怎么连、怎么互相牵动。",
+       "confidence": "主流认定",
+       "tier": "主流认定"
+      },
+      {
+       "name": "耗散结构／自组织",
+       "foreign": "Dissipative Structures",
+       "proposer": "伊利亚·普利高津（布鲁塞尔学派）",
+       "source": "1967 演讲；《Self-Organization in Nonequilibrium Systems》1977",
+       "tagline": "一个不断与外界交换能量物质的开放系统，会自己从混乱里长出有序结构。",
+       "confidence": "确证",
+       "tier": "确证"
+      },
+      {
+       "name": "设计思维",
+       "foreign": "Design Thinking",
+       "proposer": "IDEO（凯利／布朗）＋斯坦福 d.school 推广；思想源头 Simon 1969，术语 Peter Rowe 1987",
+       "source": "Simon《人工科学》1969；Brown 2008 HBR",
+       "tagline": "像设计师那样，先泡进用户里找真问题，再用快速原型试错迭代方案。",
+       "confidence": "主流认定",
+       "tier": "主流认定"
+      },
+      {
+       "name": "还原论",
+       "foreign": "Reductionism",
+       "proposer": "笛卡尔等",
+       "source": "近代科学传统",
+       "tagline": "把复杂的东西拆成最小的零件，觉得弄懂零件就等于弄懂整体。",
+       "confidence": "主流认定",
+       "tier": "主流认定"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "num": "五",
+   "name": "哲学与东方思维范式",
+   "subs": [
+    {
+     "name": "",
+     "items": [
+      {
+       "name": "实用主义",
+       "foreign": "Pragmatism",
+       "proposer": "皮尔士首创；詹姆斯、杜威发展",
+       "source": "皮尔士 1878；詹姆斯《实用主义》1907",
+       "tagline": "一个想法有没有意义，看它在实际中带来什么差别、管不管用。",
+       "confidence": "确证",
+       "tier": "确证"
+      },
+      {
+       "name": "实践智慧",
+       "foreign": "Phronesis",
+       "proposer": "亚里士多德",
+       "source": "《尼各马可伦理学》第六卷",
+       "tagline": "在具体情境里拿捏分寸、做出妥当判断的那种实践能力。",
+       "confidence": "确证",
+       "tier": "确证"
+      },
+      {
+       "name": "实践论",
+       "foreign": "",
+       "proposer": "毛泽东",
+       "source": "《实践论》1937",
+       "tagline": "别光想，先去干，让实际结果来检验你的想法对不对。",
+       "confidence": "确证",
+       "tier": "确证"
+      },
+      {
+       "name": "怀疑论（皮浪主义）",
+       "foreign": "Skepticism",
+       "proposer": "皮浪",
+       "source": "前 4–3 世纪；塞克斯都《皮浪学说概要》传世",
+       "tagline": "对任何判断都先挂起来，承认自己未必知道，反倒收获平静。",
+       "confidence": "主流认定",
+       "tier": "主流认定"
+      },
+      {
+       "name": "批判理论",
+       "foreign": "Critical Theory",
+       "proposer": "霍克海默（法兰克福学派）",
+       "source": "《传统理论与批判理论》1937",
+       "tagline": "不把现状当理所当然，去追问它维护了谁的利益、能不能更好。",
+       "confidence": "确证",
+       "tier": "确证"
+      },
+      {
+       "name": "斯多葛主义",
+       "foreign": "Stoicism",
+       "proposer": "季蒂昂的芝诺",
+       "source": "约前 301 创于雅典；经《沉思录》传世",
+       "tagline": "分清哪些事你能控制、哪些不能，把力气只花在前者上。",
+       "confidence": "主流认定",
+       "tier": "主流认定"
+      },
+      {
+       "name": "无为",
+       "foreign": "",
+       "proposer": "老子（《道德经》作者及成书有争议）",
+       "source": "《道德经》",
+       "tagline": "别硬来，顺着事情的本来趋势走，反而更容易成事。",
+       "confidence": "主流认定",
+       "tier": "主流认定"
+      },
+      {
+       "name": "格物致知",
+       "foreign": "",
+       "proposer": "《礼记·大学》（作者佚名，传统托名曾子）",
+       "source": "《大学》八条目",
+       "tagline": "靠一件一件地推究事物，把知识一点点弄明白、做扎实。",
+       "confidence": "集体沉淀（原典，作者不可考）",
+       "tier": "集体沉淀"
+      },
+      {
+       "name": "正念",
+       "foreign": "Mindfulness / MBSR",
+       "proposer": "乔·卡巴金",
+       "source": "1979 麻省大学减压门诊；《Full Catastrophe Living》1990",
+       "tagline": "有意识地、不加评判地留意当下这一刻，从自动反应里松出来。",
+       "confidence": "确证",
+       "tier": "确证"
+      },
+      {
+       "name": "现象学还原",
+       "foreign": "Phenomenological Reduction",
+       "proposer": "胡塞尔",
+       "source": "《逻辑研究》1900–01",
+       "tagline": "把「这东西客观上是什么」先搁置，专注描述它在我们意识里怎样呈现。",
+       "confidence": "确证",
+       "tier": "确证"
+      },
+      {
+       "name": "理性主义",
+       "foreign": "Rationalism",
+       "proposer": "笛卡尔、莱布尼茨",
+       "source": "笛卡尔《谈谈方法》1637",
+       "tagline": "靠理性推理就能把握世界的结构，感官反倒可能骗人。",
+       "confidence": "主流认定",
+       "tier": "主流认定"
+      },
+      {
+       "name": "理性情绪行为疗法（ABC模型）",
+       "foreign": "REBT ABC Model",
+       "proposer": "阿尔伯特·埃利斯",
+       "source": "1955 创立；《Reason and Emotion in Psychotherapy》1962",
+       "tagline": "让你难受的往往不是那件事本身，而是你对它抱着的念头。",
+       "confidence": "确证",
+       "tier": "确证"
+      },
+      {
+       "name": "矛盾论",
+       "foreign": "",
+       "proposer": "毛泽东",
+       "source": "《矛盾论》1937",
+       "tagline": "抓住一堆问题里那个说了算的主要矛盾，其余的先放一放。",
+       "confidence": "确证",
+       "tier": "确证"
+      },
+      {
+       "name": "知行合一",
+       "foreign": "",
+       "proposer": "王阳明（王守仁）",
+       "source": "《传习录》",
+       "tagline": "真知道就一定会去做；没做到，说明其实还没真正知道。",
+       "confidence": "确证",
+       "tier": "确证"
+      },
+      {
+       "name": "笛卡尔方法怀疑",
+       "foreign": "Cartesian Doubt",
+       "proposer": "笛卡尔",
+       "source": "《谈谈方法》1637；《第一哲学沉思集》1641",
+       "tagline": "把一切可疑的先怀疑掉，找到那个怀疑不掉的立足点再往上建。",
+       "confidence": "确证",
+       "tier": "确证"
+      },
+      {
+       "name": "经验主义",
+       "foreign": "Empiricism",
+       "proposer": "洛克、休谟",
+       "source": "洛克《人类理解论》1689；休谟《人性论》",
+       "tagline": "别信凭空推断，一切知识都得从经验和观察里来。",
+       "confidence": "主流认定",
+       "tier": "主流认定"
+      },
+      {
+       "name": "结构主义",
+       "foreign": "Structuralism",
+       "proposer": "索绪尔奠基；列维-施特劳斯",
+       "source": "索绪尔《普通语言学教程》1916",
+       "tagline": "别只盯单个元素，去看元素之间那套看不见的关系结构。",
+       "confidence": "主流认定",
+       "tier": "主流认定"
+      },
+      {
+       "name": "致良知",
+       "foreign": "",
+       "proposer": "王阳明",
+       "source": "《传习录》《大学问》",
+       "tagline": "遇事先问自己心里那个是非判断，把它认准、扩充、照着做。",
+       "confidence": "确证",
+       "tier": "确证"
+      },
+      {
+       "name": "苏格拉底诘问法",
+       "foreign": "Socratic Method",
+       "proposer": "苏格拉底（柏拉图早期对话录传世）",
+       "source": "柏拉图对话录（约前 4 世纪）",
+       "tagline": "用一连串追问，把对方（和自己）信念里的矛盾问出来。",
+       "confidence": "确证",
+       "tier": "确证"
+      },
+      {
+       "name": "解构",
+       "foreign": "Deconstruction",
+       "proposer": "雅克·德里达",
+       "source": "《论文字学》1967",
+       "tagline": "拆开一个说法内部的对立和预设，看它是靠什么才立得住。",
+       "confidence": "确证",
+       "tier": "确证"
+      },
+      {
+       "name": "认知行为疗法",
+       "foreign": "Cognitive Behavioral Therapy",
+       "proposer": "阿伦·贝克",
+       "source": "《Cognitive Therapy of Depression》1979",
+       "tagline": "改变想法和行为，就能带动情绪好转；想法也可以被检验。",
+       "confidence": "确证",
+       "tier": "确证"
+      },
+      {
+       "name": "诠释学循环",
+       "foreign": "Hermeneutic Circle",
+       "proposer": "Ast 1808 提出术语；伽达默尔集大成",
+       "source": "伽达默尔《真理与方法》1960",
+       "tagline": "理解整体要靠部分，理解部分又得先有整体的预感，来回往复。",
+       "confidence": "集体沉淀",
+       "tier": "集体沉淀"
+      },
+      {
+       "name": "辩证法",
+       "foreign": "Dialectics",
+       "proposer": "黑格尔（系统化）；马克思改造为唯物辩证法",
+       "source": "《精神现象学》1807；《资本论》1867",
+       "tagline": "把矛盾看成推动事物变化的内在动力，顺着正与反的冲突去找到更高一层的理解。",
+       "confidence": "主流认定",
+       "tier": "主流认定"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+};
+/* DATA:END */
+</script>
+<script>
+(function(){
+  const CN_NUM = { "一":"壹", "二":"贰", "三":"叁", "四":"肆", "五":"伍" };
+  const SHORT  = { "一":"通用", "二":"博弈战略", "三":"决策方法", "四":"系统科学", "五":"哲学东方" };
+  const PALETTE = { "all":"#2C4A8F", "一":"#3E5C9B", "二":"#A8452F", "三":"#A87B22", "四":"#3F7362", "五":"#71507A" };
+  const roster = document.getElementById("roster");
+  const catsBox = document.getElementById("cats");
+  const q = document.getElementById("q");
+  const empty = document.getElementById("empty");
+  let activeCat = "all";
+
+  document.getElementById("statTotal").textContent = ROSTER.total;
+  let proven = 0;
+  ROSTER.categories.forEach(c => c.subs.forEach(s => s.items.forEach(it => {
+    if (it.tier.indexOf("确证") === 0) proven++;
+  })));
+  document.getElementById("statProven").textContent = proven;
+
+  // 类别按钮：选中时染上该类别的颜色
+  const mkBtn = (key, label) => {
+    const b = document.createElement("button");
+    b.className = "cat-btn";
+    b.textContent = label;
+    b.setAttribute("role","tab");
+    b.addEventListener("click", () => {
+      activeCat = key;
+      catsBox.querySelectorAll(".cat-btn").forEach(x => {
+        x.classList.remove("active");
+        x.style.color = ""; x.style.borderColor = "";
+      });
+      b.classList.add("active");
+      b.style.color = PALETTE[key]; b.style.borderColor = PALETTE[key];
+      render();
+    });
+    if (key === activeCat){
+      b.classList.add("active");
+      b.style.color = PALETTE[key]; b.style.borderColor = PALETTE[key];
+    }
+    catsBox.appendChild(b);
+  };
+  mkBtn("all", "全部");
+  ROSTER.categories.forEach(c => mkBtn(c.num, CN_NUM[c.num] + " · " + SHORT[c.num]));
+
+  function esc(s){ return s.replace(/"/g,"&quot;"); }
+
+  function cardHTML(it){
+    const foreign = it.foreign ? '<span class="card-foreign">' + it.foreign + "</span>" : "";
+    return '<article class="card" title="出处：' + esc(it.source) + '">'
+      + '<div><h4 class="card-name">' + it.name + "</h4>" + foreign + "</div>"
+      + '<p class="card-tagline">' + it.tagline + "</p>"
+      + '<div class="card-foot">'
+      + '<span class="card-proposer" title="提出者">' + it.proposer + "</span>"
+      + '<span class="tier t-' + it.tier + '" title="' + esc(it.confidence) + '">' + it.tier + "</span>"
+      + "</div></article>";
+  }
+
+  function render(){
+    const query = q.value.trim().toLowerCase();
+    let html = "", shown = 0;
+    ROSTER.categories.forEach(c => {
+      if (activeCat !== "all" && c.num !== activeCat) return;
+      const count = c.subs.reduce((n,s) => n + s.items.length, 0);
+      let body = "";
+      c.subs.forEach(s => {
+        const items = s.items.filter(it => !query ||
+          (it.name + it.foreign + it.proposer + it.source).toLowerCase().indexOf(query) !== -1);
+        if (!items.length) return;
+        if (s.name) body += '<h3 class="sub-head">' + s.name + "</h3>";
+        body += '<div class="grid">' + items.map(cardHTML).join("") + "</div>";
+        shown += items.length;
+      });
+      if (!body) return;
+      html += '<section data-num="' + c.num + '">'
+        + '<div class="cat-head"><span class="cat-num">' + CN_NUM[c.num] + '</span>'
+        + '<h2 class="cat-name">' + c.name + '</h2>'
+        + '<span class="cat-count latin">' + count + ' 条</span>'
+        + '<span class="cat-ghost" aria-hidden="true">' + CN_NUM[c.num] + "</span></div>"
+        + body + "</section>";
+    });
+    roster.innerHTML = html;
+    empty.classList.toggle("show", shown === 0);
+  }
+
+  q.addEventListener("input", render);
+  render();
+})();
+</script>
+</body>
+</html>
