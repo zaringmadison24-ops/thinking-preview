@@ -235,26 +235,60 @@
     font-size:11px; letter-spacing:.15em; color:var(--ink-3);
     margin-top:10px; user-select:none;
   }
-  .card.open .card-more{ color:var(--cat); }
-  .card-detail{
-    display:none;
-    margin-top:12px; padding-top:12px;
-    border-top:1px dashed color-mix(in srgb, var(--cat) 25%, var(--line));
+  /* 点击卡片后的中央弹层 */
+  .card-modal-overlay{
+    position:fixed; inset:0; z-index:50;
+    background:color-mix(in srgb, #141B2B 48%, transparent);
+    -webkit-backdrop-filter:blur(6px); backdrop-filter:blur(6px);
+    display:none; align-items:center; justify-content:center;
+    padding:24px;
   }
-  .card.open .card-detail{ display:block; }
-  .detail-label{
-    font-size:11px; font-weight:600; letter-spacing:.2em;
-    color:var(--cat); margin:10px 0 4px;
+  .card-modal-overlay.show{ display:flex; }
+  .card-modal{
+    position:relative;
+    width:100%; max-width:660px; max-height:84vh; overflow-y:auto;
+    background:color-mix(in srgb, var(--card) 92%, transparent);
+    -webkit-backdrop-filter:blur(24px) saturate(1.6);
+    backdrop-filter:blur(24px) saturate(1.6);
+    border:1px solid color-mix(in srgb, #FFFFFF 70%, transparent);
+    border-radius:20px; padding:34px 36px 24px;
+    box-shadow:0 30px 90px color-mix(in srgb, #000 40%, transparent);
+    animation:modal-in .18s ease-out;
   }
-  .detail-label:first-child{ margin-top:0; }
-  .detail-text{
-    font-size:13px; color:var(--ink-2); line-height:1.9;
-    overflow-wrap:break-word;
+  @keyframes modal-in{
+    from{ opacity:0; transform:translateY(14px) scale(.97); }
+    to{ opacity:1; transform:none; }
   }
-  .detail-source{
-    font-size:11.5px; color:var(--ink-3); margin-top:12px; line-height:1.6;
-    overflow-wrap:break-word;
+  .m-close{
+    position:absolute; top:14px; right:18px;
+    font-size:15px; color:var(--ink-3); cursor:pointer;
+    width:30px; height:30px; line-height:30px; text-align:center;
+    border-radius:50%; border:1px solid var(--line);
   }
+  .m-close:hover{ color:var(--ink); border-color:var(--ink-3); }
+  .m-name{ font-size:23px; font-weight:700; letter-spacing:.02em; padding-right:34px; }
+  .m-foreign{
+    font-family:"Spectral",serif; font-style:italic; font-weight:300;
+    font-size:14px; color:var(--ink-3); margin-top:5px;
+  }
+  .m-tagline{
+    font-size:14px; color:var(--ink-2); line-height:1.8; margin-top:14px;
+    padding-bottom:14px;
+    border-bottom:1px dashed color-mix(in srgb, var(--cat) 25%, var(--line));
+  }
+  .m-label{
+    font-size:11.5px; font-weight:600; letter-spacing:.25em;
+    color:var(--cat); margin:18px 0 6px;
+  }
+  .m-text{ font-size:14.5px; color:var(--ink-2); line-height:2; overflow-wrap:break-word; }
+  .m-foot{
+    margin-top:20px; padding-top:13px;
+    border-top:1px solid color-mix(in srgb, var(--cat) 18%, var(--line));
+    display:flex; align-items:center; justify-content:space-between; gap:10px;
+  }
+  .m-proposer{ font-size:13px; color:var(--ink-2); }
+  .m-source{ font-size:12px; color:var(--ink-3); margin-top:10px; line-height:1.7; }
+  body.modal-open{ overflow:hidden; }
   .card-foot{
     margin-top:14px; padding-top:11px;
     border-top:1px solid color-mix(in srgb, var(--cat) 18%, var(--line));
@@ -2190,36 +2224,77 @@ const ROSTER = {
   function esc(s){ return s.replace(/"/g,"&quot;"); }
   function escHtml(s){ return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
 
-  function cardHTML(it){
+  function cardHTML(it, idx){
     const foreign = it.foreign ? '<span class="card-foreign">' + escHtml(it.foreign) + "</span>" : "";
-    return '<article class="card" title="点击展开／收起详情">'
+    return '<article class="card" data-idx="' + idx + '" title="点击查看详情">'
       + '<div><h4 class="card-name">' + escHtml(it.name) + "</h4>" + foreign + "</div>"
       + '<p class="card-tagline">' + escHtml(it.tagline) + "</p>"
-      + '<div class="card-detail">'
-      + '<p class="detail-label">概述</p><p class="detail-text">' + escHtml(it.overview || "（暂无）") + "</p>"
-      + '<p class="detail-label">应用</p><p class="detail-text">' + escHtml(it.apply || "（暂无）") + "</p>"
-      + '<p class="detail-source">出处：' + escHtml(it.source) + "</p>"
-      + "</div>"
       + '<div class="card-foot">'
       + '<span class="card-proposer" title="提出者">' + escHtml(it.proposer) + "</span>"
       + '<span class="tier t-' + it.tier + '" title="' + esc(it.confidence) + '">' + it.tier + "</span>"
       + "</div>"
-      + '<div class="card-more">展开详情 ▾</div>'
+      + '<div class="card-more">查看详情 ▾</div>'
       + "</article>";
   }
 
-  // 点击卡片展开／收起详情（事件委托，重渲染后仍生效）
+  // ── 中央弹层：点击卡片放大展示全部内容，背景变暗 ──
+  const overlay = document.createElement("div");
+  overlay.className = "card-modal-overlay";
+  overlay.innerHTML =
+      '<div class="card-modal" role="dialog" aria-modal="true">'
+    + '<span class="m-close" title="关闭（Esc）">✕</span>'
+    + '<h3 class="m-name"></h3>'
+    + '<div class="m-foreign"></div>'
+    + '<p class="m-tagline"></p>'
+    + '<p class="m-label">概述</p><p class="m-text m-overview"></p>'
+    + '<p class="m-label">应用</p><p class="m-text m-apply"></p>'
+    + '<div class="m-foot"><span class="m-proposer"></span><span class="tier m-tier"></span></div>'
+    + '<p class="m-source"></p>'
+    + "</div>";
+  document.body.appendChild(overlay);
+  const modal = overlay.querySelector(".card-modal");
+
+  let viewItems = [];   // 当前渲染出来的条目，卡片用 data-idx 索引
+
+  function openModal(it){
+    modal.querySelector(".m-name").textContent = it.name;
+    modal.querySelector(".m-foreign").textContent = it.foreign || "";
+    modal.querySelector(".m-tagline").textContent = it.tagline;
+    modal.querySelector(".m-overview").textContent = it.overview || "（暂无）";
+    modal.querySelector(".m-apply").textContent = it.apply || "（暂无）";
+    modal.querySelector(".m-proposer").textContent = "提出者：" + it.proposer;
+    const tier = modal.querySelector(".m-tier");
+    tier.textContent = it.tier;
+    tier.className = "tier m-tier t-" + it.tier;
+    tier.title = it.confidence;
+    modal.querySelector(".m-source").textContent = "出处：" + it.source;
+    modal.scrollTop = 0;
+    overlay.classList.add("show");
+    document.body.classList.add("modal-open");
+  }
+  function closeModal(){
+    overlay.classList.remove("show");
+    document.body.classList.remove("modal-open");
+  }
+
+  // 事件委托，重渲染后仍生效
   roster.addEventListener("click", (e) => {
     const card = e.target.closest(".card");
     if (!card) return;
-    card.classList.toggle("open");
-    const more = card.querySelector(".card-more");
-    if (more) more.textContent = card.classList.contains("open") ? "收起详情 ▴" : "展开详情 ▾";
+    const it = viewItems[Number(card.dataset.idx)];
+    if (it) openModal(it);
+  });
+  overlay.addEventListener("click", (e) => {
+    if (e.target === overlay || e.target.closest(".m-close")) closeModal();
+  });
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closeModal();
   });
 
   function render(){
     const query = q.value.trim().toLowerCase();
     let html = "", shown = 0;
+    viewItems = [];
     ROSTER.categories.forEach(c => {
       if (activeCat !== "all" && c.num !== activeCat) return;
       const count = c.subs.reduce((n,s) => n + s.items.length, 0);
@@ -2229,7 +2304,10 @@ const ROSTER = {
           (it.name + it.foreign + it.proposer + it.source + (it.overview||"") + (it.apply||"")).toLowerCase().indexOf(query) !== -1);
         if (!items.length) return;
         if (s.name) body += '<h3 class="sub-head">' + s.name + "</h3>";
-        body += '<div class="grid">' + items.map(cardHTML).join("") + "</div>";
+        body += '<div class="grid">' + items.map(it => {
+          viewItems.push(it);
+          return cardHTML(it, viewItems.length - 1);
+        }).join("") + "</div>";
         shown += items.length;
       });
       if (!body) return;
